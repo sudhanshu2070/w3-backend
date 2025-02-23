@@ -1,12 +1,16 @@
 import { google } from 'googleapis';
 import { Request, Response } from 'express';
 
-const saveFormData = async (req: Request, res: Response) => {
+const saveFormData = async (req: Request, res: Response): Promise<void> => {
   try {
     const { firstName, lastName, whatsappNumber, email, country, experience, queries } = req.body;
 
+    console.log('Request body:', req.body); 
+    
+    // Validate required fields
     if (!firstName || !lastName || !whatsappNumber || !email || !country || !experience) {
-      return res.status(400).send('All fields are required.');
+      res.status(400).send('All fields are required.');
+      return; // Early exit without returning a value
     }
 
     // Load credentials and authenticate
@@ -30,10 +34,13 @@ const saveFormData = async (req: Request, res: Response) => {
       },
     });
 
+    // Send success response
     res.status(200).send('Data saved successfully!');
+    // No explicit return here
   } catch (error) {
     console.error('Error saving to Google Sheets:', error);
     res.status(500).send('Internal Server Error');
+    // No explicit return here
   }
 };
 
