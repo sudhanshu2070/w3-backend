@@ -33,3 +33,5 @@ dist/
 
 # Ignore credentials
 credentials.json
+
+/credentials.json
