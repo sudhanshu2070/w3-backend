@@ -7,6 +7,9 @@
       "outDir": "./dist",
       "rootDir": "./src"
     },
-    "include": ["src/**/*"],
+    "include": [
+      "src/**/*",
+      "/api/*.ts",
+    ],
     "exclude": ["node_modules"]
   }
