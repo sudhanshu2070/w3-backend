@@ -1,8 +1,19 @@
 import { google } from 'googleapis';
 import { Request, Response } from 'express';
+import { JWT } from 'google-auth-library';
+
 import dotenv from 'dotenv';
 
 dotenv.config();
+
+const fs = require("fs");
+const credentialsPath = "/tmp/credentials.json";
+
+// Decode and write credentials file at runtime if the env variable exists
+if (process.env.GOOGLE_CREDENTIALS) {
+  fs.writeFileSync(credentialsPath, Buffer.from(process.env.GOOGLE_CREDENTIALS, "base64").toString("utf8"));
+  process.env.GOOGLE_APPLICATION_CREDENTIALS = credentialsPath;
+}
 
 //Have to change when getting data via API
 const newSpreadSheetId = process.env.SPREADSHEET_ID; //hardcoded for now
@@ -10,7 +21,8 @@ const newRange = process.env.SPREADSHEET_RANGE;
 
 // Load credentials and authenticate
 const auth = new google.auth.GoogleAuth({
-    keyFile: "credentials.json",
+    // keyFile: "credentials.json",
+    keyFile: credentialsPath, // Using the temporary path
     scopes: ['https://www.googleapis.com/auth/spreadsheets'],
 });
 
@@ -58,7 +70,7 @@ const getFormData = async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    const client = (await auth.getClient()) as any;
+    const client = (await auth.getClient()) as JWT;
     const sheets = google.sheets({ version: 'v4', auth: client });
 
     const response = await sheets.spreadsheets.values.get({
