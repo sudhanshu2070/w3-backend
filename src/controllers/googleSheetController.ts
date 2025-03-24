@@ -94,7 +94,7 @@ const getFormData = async (req: Request, res: Response): Promise<void> => {
 };
 
 // Function to fetch data from Google Sheets for WhatsApp
-const getFormDataWhatsApp = async (req: Request, res: Response): Promise<void> => {
+const getWhatsAppData = async (req: Request, res: Response): Promise<void> => {
   try {
     const { spreadsheetId, range } = req.query;
 
@@ -126,4 +126,4 @@ const getFormDataWhatsApp = async (req: Request, res: Response): Promise<void> =
   }
 };
 
-export { saveFormData, getFormData, getFormDataWhatsApp};
+export { saveFormData, getFormData, getWhatsAppData};
