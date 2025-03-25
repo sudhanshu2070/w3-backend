@@ -93,37 +93,5 @@ const getFormData = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-// Function to fetch data from Google Sheets for WhatsApp
-const getWhatsAppData = async (req: Request, res: Response): Promise<void> => {
-  try {
-    const { spreadsheetId, range } = req.query;
 
-    if (!spreadsheetId || !range) {
-      res.status(400).json({ error: 'Missing required parameters: spreadsheetId or range' });
-      return;
-    }
-
-    const client = (await auth.getClient()) as JWT;
-    const sheets = google.sheets({ version: 'v4', auth: client });
-
-    const response = await sheets.spreadsheets.values.get({
-      spreadsheetId: newSpreadSheetId,
-      // spreadsheetId: spreadsheetId as string, //For future reference to get via API
-      range: newRange, // Example: 'Sheet1!A1:D10'
-      // range: range as string, // Example: 'Sheet1!A1:D10' //For future reference to get via API
-    });
-
-    const rows = response.data.values;
-    if (!rows || rows.length === 0) {
-      res.status(404).json({ message: 'No data found.' });
-      return;
-    }
-
-    res.json({ data: rows });
-  } catch (error) {
-    console.error('Error fetching data:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-};
-
-export { saveFormData, getFormData, getWhatsAppData};
+export { saveFormData, getFormData};

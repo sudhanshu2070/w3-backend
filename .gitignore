@@ -33,5 +33,7 @@ dist/
 
 # Ignore credentials
 credentials.json
+credentials-whatsApp.json
 
 /credentials.json
+/credentials-whatsApp.json

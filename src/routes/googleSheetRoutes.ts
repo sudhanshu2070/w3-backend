@@ -1,5 +1,6 @@
 import express from 'express';
-import { getFormData, getWhatsAppData, saveFormData} from '../controllers/googleSheetController';
+import { getFormData, saveFormData} from '../controllers/googleSheetController';
+import { getWhatsAppData } from '../controllers/googleSheetWhatsAppController';
 
 const router = express.Router();
 
