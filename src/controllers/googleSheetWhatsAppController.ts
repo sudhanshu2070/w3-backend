@@ -11,8 +11,6 @@ const fs = require("fs");
 const newSpreadSheetId = process.env.WHATSAPP_SPREADSHEET_ID;
 const newRange = process.env.WHATSAPP_SPREADSHEET_RANGE;
 
-
-
 // Load credentials and authenticate
 const auth = new google.auth.GoogleAuth({
     // keyFile: credentials-getWhatsAppData.json, // Using the temporary path
