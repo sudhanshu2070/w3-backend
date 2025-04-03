@@ -4,7 +4,7 @@
   "description": "Backend API for saving form data into Google Sheets using Express and TypeScript",
   "main": "dist/server.js",
   "scripts": {
-    "start": "node dist/server.js",
+    "start": "ts-node src/server.ts",
     "build": "tsc",
     "dev": "nodemon src/server.ts",
     "vercel-build":"echo hello"
