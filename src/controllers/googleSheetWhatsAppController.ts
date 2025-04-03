@@ -15,9 +15,17 @@ if (!SPREADSHEET_ID) {
   process.exit(1); // Exit the process
 }
 
+// Decode the Base64-encoded JSON string
+const base64Credentials = process.env.GOOGLE_APPLICATION_CREDENTIALS_WHATSAPP_BASE64 || '';
+const credentialsJson = Buffer.from(base64Credentials, 'base64').toString('utf-8');
+
+// Parse the JSON string into an object
+const credentials = JSON.parse(credentialsJson);
+
 // Initialize Google Auth with credentials and required scopes
 const googleAuth = new google.auth.GoogleAuth({
-  keyFile: 'credentials-whatsApp.json', // Path to Google Sheets API credentials file
+  // keyFile: 'credentials-whatsApp.json', // Path to Google Sheets API credentials file(for local testing)
+  credentials, // Use the parsed credentials object
   scopes: ['https://www.googleapis.com/auth/spreadsheets'], // Scope for accessing Google Sheets
 });
 
