@@ -9,7 +9,7 @@
     "dev": "nodemon src/server.ts",
     "vercel-build": "echo hello",
     "lint": "eslint .",
-    "format": "prettier --write \"src/**/*.ts\"",
+    "format": "prettier --write \".\"",
     "prepare": "husky install"
   },
   "keywords": [
