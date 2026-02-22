@@ -1,3 +1,4 @@
+import fs from 'fs';
 import { google } from 'googleapis';
 import { Request, Response } from 'express';
 import { JWT } from 'google-auth-library';
@@ -6,12 +7,14 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const fs = require("fs");
-const credentialsPath = "/tmp/credentials.json";
+const credentialsPath = '/tmp/credentials.json';
 
 // Decode and write credentials file at runtime if the env variable exists
 if (process.env.GOOGLE_CREDENTIALS) {
-  fs.writeFileSync(credentialsPath, Buffer.from(process.env.GOOGLE_CREDENTIALS, "base64").toString("utf8"));
+  fs.writeFileSync(
+    credentialsPath,
+    Buffer.from(process.env.GOOGLE_CREDENTIALS, 'base64').toString('utf8'),
+  );
   process.env.GOOGLE_APPLICATION_CREDENTIALS = credentialsPath;
 }
 
@@ -21,17 +24,32 @@ const newRange = process.env.SPREADSHEET_RANGE;
 
 // Load credentials and authenticate
 const auth = new google.auth.GoogleAuth({
-    // keyFile: "credentials.json",
-    keyFile: credentialsPath, // Using the temporary path
-    scopes: ['https://www.googleapis.com/auth/spreadsheets'],
+  // keyFile: "credentials.json",
+  keyFile: credentialsPath, // Using the temporary path
+  scopes: ['https://www.googleapis.com/auth/spreadsheets'],
 });
 
 const saveFormData = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { firstName, lastName, whatsappNumber, email, country, experience, queries } = req.body;
-    
+    const {
+      firstName,
+      lastName,
+      whatsappNumber,
+      email,
+      country,
+      experience,
+      queries,
+    } = req.body;
+
     // Validate required fields
-    if (!firstName || !lastName || !whatsappNumber || !email || !country || !experience) {
+    if (
+      !firstName ||
+      !lastName ||
+      !whatsappNumber ||
+      !email ||
+      !country ||
+      !experience
+    ) {
       res.status(400).send('All fields are required.');
       return; // Early exit without returning a value
     }
@@ -46,7 +64,17 @@ const saveFormData = async (req: Request, res: Response): Promise<void> => {
       range: 'Sheet1!A4', // Have to adjust the range as per the requirement
       valueInputOption: 'RAW',
       requestBody: {
-        values: [[firstName, lastName, whatsappNumber, email, country, experience, queries]],
+        values: [
+          [
+            firstName,
+            lastName,
+            whatsappNumber,
+            email,
+            country,
+            experience,
+            queries,
+          ],
+        ],
       },
     });
 
@@ -66,7 +94,9 @@ const getFormData = async (req: Request, res: Response): Promise<void> => {
     const { spreadsheetId, range } = req.query;
 
     if (!spreadsheetId || !range) {
-      res.status(400).json({ error: 'Missing required parameters: spreadsheetId or range' });
+      res
+        .status(400)
+        .json({ error: 'Missing required parameters: spreadsheetId or range' });
       return;
     }
 
@@ -93,5 +123,4 @@ const getFormData = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-
-export { saveFormData, getFormData};
+export { saveFormData, getFormData };

@@ -13,7 +13,7 @@ app.use('/api', googleSheetRoutes);
 
 // Test route
 app.get('/', (req, res) => {
-    res.send('Server is running! Access API at /api');
+  res.send('Server is running! Access API at /api');
 });
 
 export default app;

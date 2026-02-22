@@ -2,7 +2,6 @@ import { google } from 'googleapis';
 import { Request, Response } from 'express';
 import { JWT } from 'google-auth-library';
 import dotenv from 'dotenv';
-import fs from 'fs';
 
 // Loading environment variables from .env file
 dotenv.config();
@@ -16,8 +15,11 @@ if (!SPREADSHEET_ID) {
 }
 
 // Decode the Base64-encoded JSON string
-const base64Credentials = process.env.GOOGLE_APPLICATION_CREDENTIALS_WHATSAPP_BASE64 || '';
-const credentialsJson = Buffer.from(base64Credentials, 'base64').toString('utf-8');
+const base64Credentials =
+  process.env.GOOGLE_APPLICATION_CREDENTIALS_WHATSAPP_BASE64 || '';
+const credentialsJson = Buffer.from(base64Credentials, 'base64').toString(
+  'utf-8',
+);
 
 // Parse the JSON string into an object
 const credentials = JSON.parse(credentialsJson);
@@ -31,11 +33,14 @@ const googleAuth = new google.auth.GoogleAuth({
 
 /**
  * Fetches data from a Google Sheet using the provided spreadsheet ID and range.
- * 
+ *
  * @param {Request} req - Express request object containing query parameters (spreadsheetId, range).
  * @param {Response} res - Express response object to send back the fetched data or error message.
  */
-const fetchWhatsAppData = async (req: Request, res: Response): Promise<void> => {
+const fetchWhatsAppData = async (
+  req: Request,
+  res: Response,
+): Promise<void> => {
   try {
     // Extracting query parameters from the request
     const { range } = req.query;
@@ -52,23 +57,26 @@ const fetchWhatsAppData = async (req: Request, res: Response): Promise<void> => 
 
     const sheetResponse = await sheetsAPI.spreadsheets.values.get({
       spreadsheetId: SPREADSHEET_ID,
-      range: range as string, 
+      range: range as string,
     });
 
     // Extract rows from the response
     const sheetRows = sheetResponse.data.values;
 
     if (!sheetRows || sheetRows.length === 0) {
-      res.status(404).json({ message: 'No data found in the specified range.' });
+      res
+        .status(404)
+        .json({ message: 'No data found in the specified range.' });
       return;
     }
 
     // Sending the fetched data as JSON response
     res.json({ data: sheetRows });
-
   } catch (error) {
     console.error('Error fetching data from Google Sheets:', error);
-    res.status(500).json({ error: 'An internal server error occurred while fetching data.' });
+    res.status(500).json({
+      error: 'An internal server error occurred while fetching data.',
+    });
   }
 };
 

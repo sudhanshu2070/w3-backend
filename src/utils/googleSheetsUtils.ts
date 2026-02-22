@@ -1,4 +1,4 @@
-import { google, sheets_v4 } from 'googleapis';
+import { google } from 'googleapis';
 
 export const appendToSheet = async (data: string[]) => {
   const auth = new google.auth.GoogleAuth({
