@@ -22,7 +22,7 @@ const credentialsJson = Buffer.from(base64Credentials, 'base64').toString(
 );
 
 // Parse the JSON string into an object
-const credentials = JSON.parse(credentialsJson);
+const credentials = JSON.parse(credentialsJson || '{}');
 
 // Initialize Google Auth with credentials and required scopes
 const googleAuth = new google.auth.GoogleAuth({
