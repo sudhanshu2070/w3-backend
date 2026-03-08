@@ -19,4 +19,4 @@ const UserSchema: Schema = new Schema(
   { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } }
 );
 
-export default mongoose.model<IUser>('User', UserSchema, 'users_collection');
+export default mongoose.model<IUser>('User', UserSchema, 'users_collection'); // Explicitly specifying collection name to avoid pluralization issues

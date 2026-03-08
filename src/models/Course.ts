@@ -35,4 +35,4 @@ const CourseSchema: Schema = new Schema(
   { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } }
 );
 
-export default mongoose.model<ICourse>('Course', CourseSchema, 'courses_collection');
+export default mongoose.model<ICourse>('Course', CourseSchema, 'courses_collection'); // Explicitly specifying collection name to avoid pluralization issues
